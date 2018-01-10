@@ -1,0 +1,38 @@
+#!/bin/bash
+
+TEST=$(uptime)
+HOURS=$(uptime | awk -F ':' '{print $1}')
+MINUTES=$(uptime | awk -F ':' '{print $2}')
+
+good ()
+        {
+        exit 0
+        }
+
+bad ()
+        {
+        exit 2
+        }
+
+main ()
+        {
+
+        if [[ $TEST = *days* ]]; then
+                echo "Device uptime: $TEST"
+                good;
+        else
+                if [[ $HOURS -ge 1 ]]; then
+                        echo "Device uptime: $TEST"
+                        good;
+                else
+                        if [[ $MINUTES -ge 16 ]]; then
+                                echo "Device has restarted, uptime: $MINUTES"
+                                bad;
+                        else
+                                echo "FUCK"
+                        fi
+                fi
+        fi
+
+        }
+main;
