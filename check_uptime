@@ -1,0 +1,27 @@
+!/bin/bash
+
+TEST=$(snmpwalk -v 2c -c redacted localhost iso.3.6.1.2.1.25.1.1.0 | awk -F '(' '{print $2}' | awk -F ')' '{print $1}')
+
+good ()
+        {
+        exit 0
+        }
+
+bad ()
+        {
+        exit 2
+        }
+
+main ()
+        {
+
+        if [[ $TEST -le 900000 ]]; then
+                echo "Device has restarted, $TEST"
+                bad;
+        else
+                echo "Device has uptime over 15 minutes: $TEST"
+                good;
+        fi
+
+        }
+main;
