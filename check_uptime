@@ -1,8 +1,8 @@
 #!/bin/bash
 
 TEST=$(uptime)
-HOURS=$(uptime | awk -F ':' '{print $1}')
-MINUTES=$(uptime | awk -F ':' '{print $2}')
+HOURS=$(uptime | awk -F 'up' '{print $2}' | awk -F ':' '{print $1}')
+MINUTES=$(uptime | awk -F ':' '{print $4}' | awk -F ',' '{print $1}')
 
 good ()
         {
