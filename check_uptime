@@ -15,7 +15,7 @@ bad ()
 main ()
         {
 
-        if [[ $TEST -le 900000 ]]; then
+        if [[ $TEST -le 90000 ]]; then
                 echo "Device has restarted, $TEST"
                 bad;
         else
