@@ -2,6 +2,23 @@
 
 TEST=$(snmpwalk -v 2c -c redacted localhost iso.3.6.1.2.1.25.1.1.0 | awk -F '(' '{print $2}' | awk -F ')' '{print $1}')
 
+math ()
+        {
+
+        HOURS=$(($TEST / 360000 ))
+        DAYS=$(($TEST / 8640000 ))
+
+        if [[ $TEST -ge 8640000 ]]; then
+                VAR=$DAYS
+                VAR2="Days:"
+                main;
+        else
+                VAR=$HOURS
+                VAR2="Hours:"
+                main;
+        fi
+        }
+
 good ()
         {
         exit 0
@@ -16,12 +33,12 @@ main ()
         {
 
         if [[ $TEST -le 90000 ]]; then
-                echo "Device has restarted, $TEST"
+                echo "Device has restarted, $VAR2 $VAR"
                 bad;
         else
-                echo "Device has uptime over 15 minutes: $TEST"
+                echo "Device has uptime over 15 minutes, $VAR2$VAR"
                 good;
         fi
 
         }
-main;
+math;
